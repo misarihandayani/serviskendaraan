@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.3.1.final using JasperReports Library version 6.3.1  -->
+<!-- 2021-09-23T20:23:11 -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="lappenjualan" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8335694f-951a-46a0-85cb-c626d1e9682d">
+	<property name="com.jaspersoft.studio.data.sql.tables" value=""/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="conn_dbminimarket_2010011"/>
+	<parameter name="tglawal" class="java.lang.String"/>
+	<parameter name="tglakhir" class="java.lang.String"/>
+	<queryString language="SQL">
+		<![CDATA[SELECT detailjual.idjual,tgl,COUNT(idbarang) AS jmlitem,
+SUM(harga * qty) AS total,nama FROM detailjual JOIN jual
+ON detailjual.idjual=jual.idjual
+JOIN users ON jual.`username`=users.`username`
+ where tgl between $P{tglawal} and $P{tglakhir}
+ GROUP BY  idjual
+ ]]>
+	</queryString>
+	<field name="idjual" class="java.lang.String"/>
+	<field name="tgl" class="java.sql.Date"/>
+	<field name="jmlitem" class="java.lang.Long"/>
+	<field name="total" class="java.lang.Double"/>
+	<field name="nama" class="java.lang.String"/>
+	<variable name="total1" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{total}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="79" splitType="Stretch"/>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="31" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="0" width="70" height="20" uuid="ca394016-c2f3-4846-b876-13d4c7a0d2c6"/>
+				<text><![CDATA[idjual]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="80" y="0" width="60" height="20" uuid="d043341d-2c73-4612-b309-54e4a4997410"/>
+				<text><![CDATA[tgl]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="150" y="0" width="60" height="20" uuid="f58da4b3-f7d6-4ce0-be8e-1ed67a24b694"/>
+				<text><![CDATA[jmlitem]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="220" y="0" width="60" height="20" uuid="aed3d1ec-a22c-4b54-9a22-102bd35c2f1b"/>
+				<text><![CDATA[nama]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="-10" y="10" width="50" height="30" uuid="c04c9781-fc1d-46e1-aa33-e3ffdd9f4860"/>
+				<textFieldExpression><![CDATA[$F{idjual}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="80" y="10" width="60" height="30" uuid="d6585d73-7a32-485e-b740-3bb29e07b232"/>
+				<textFieldExpression><![CDATA[$F{tgl}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="150" y="10" width="60" height="30" uuid="24febf0a-484c-4b70-891b-861c64561138"/>
+				<textFieldExpression><![CDATA[$F{jmlitem}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="230" y="10" width="70" height="30" uuid="dc7102d9-8673-49b2-82c9-c923294cd67e"/>
+				<textFieldExpression><![CDATA[$F{nama}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="29" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="10" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="44" splitType="Stretch">
+			<textField>
+				<reportElement x="310" y="10" width="100" height="20" uuid="f3200b0f-a65b-4e16-8d35-2ec0fc8b6e00"/>
+				<textFieldExpression><![CDATA[$V{total1}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>
